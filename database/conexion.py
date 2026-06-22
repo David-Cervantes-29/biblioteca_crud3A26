@@ -1,7 +1,9 @@
 import os
 import psycopg2
 
-from dotenv import load_dotenv
+from dotenv import load_dotenv 
+
+load_dotenv() 
 
 class Conexion:
 
@@ -12,5 +14,5 @@ class Conexion:
             database=os.getenv("DB_NAME"),
             user=os.getenv("DB_USER"),
             password=os.getenv("DB_PASSWORD"),
-            port=os.getenv("D>B_PORT")
+            port=os.getenv("DB_PORT")
         )
