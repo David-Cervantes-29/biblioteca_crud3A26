@@ -1,5 +1,6 @@
 from multiprocessing import connection
 
+from database import conexion
 from database.conexion import Conexion
 from models.libro import Libro
 
@@ -10,19 +11,7 @@ class LibroDAO:
         conexion = Conexion.obtener_conexion()
         cursor = conexion.cursor()
 
-        sql = """
-        SELECT 
-            libro.id,
-            libro.titulo,
-            autor.nombre,
-            libro.isbn,
-            libro.disponible
-            FROM libro
-            INNER JOIN autor ON
-            libro.autor = autor.id
-        """
-
-        cursor.execute(sql)
+        cursor.execute("SELECT * FROM vista_libros")
         registro = cursor.fetchall()
 
         libros = []
@@ -39,17 +28,18 @@ class LibroDAO:
         conexion.close()
         return libros
     
-    def insertar(sefl, libro):
+    def insertar(self, libro):
         conexion = Conexion.obtener_conexion()
         cursor = conexion.cursor()
-        sql ="""
-        INSERT INTO libro (titulo, autor, isbn, disponible) 
-        VALUES (%s, %s, %s, %s)
+        sql = """
+        INSERT INTO libro (id, titulo, autor, isbn, disponible) 
+        VALUES (%s, %s, %s, %s, %s)
         """
 
         cursor.execute(
             sql,
-            (libro.titulo, 
+            (libro.id,
+             libro.titulo, 
              libro.autor, 
              libro.isbn, 
              libro.disponible)
@@ -65,7 +55,7 @@ class LibroDAO:
         sql = """
         UPDATE libro
         SET titulo = %s, autor = %s, isbn = %s, disponible = %s
-        WHERE id_libro = %s
+        WHERE id = %s
         """
 
         cursor.execute(
@@ -74,7 +64,7 @@ class LibroDAO:
              libro.autor, 
              libro.isbn, 
              libro.disponible,
-             libro.id_libro)
+             libro.id)
         )
 
         conexion.commit()
@@ -82,7 +72,7 @@ class LibroDAO:
         conexion.close()
 
     def eliminar(self, libro_id):
-        conexion = conexion.obtener_conexion()
+        conexion = Conexion.obtener_conexion()
         cursor = conexion.cursor()
 
         cursor.execute(
@@ -92,3 +82,17 @@ class LibroDAO:
         conexion.commit()
         cursor.close()
         conexion.close()
+    
+    def obtener_ultimo_id(self):
+        conexion = Conexion.obtener_conexion()
+        cursor = conexion.cursor()
+
+        cursor.execute("SELECT id FROM libro ORDER BY id DESC")
+        resultado = cursor.fetchone()
+        
+        cursor.close()
+        conexion.close()
+
+        if resultado is None:
+            return 0
+        return resultado[0]

@@ -1,8 +1,10 @@
+from dao import libro_dao
 from dao.libro_dao import LibroDAO
+from models import autor, libro
 from models.libro import Libro
 
 
-def main():
+def ver_libros():
     try:
         libro_dao = LibroDAO()
 
@@ -29,17 +31,35 @@ def main():
 def insertar_libro():
     titulo = input("Escribe el titulo del libro: ")
     autor = int(input("Escribe el nombre del autor: "))
-    libro_isbn = input("Escriba el isbn del nuevo libro: ")
-    libro_disponible = True
+    isbn = input("Escriba el isbn del nuevo libro: ")
+    disponible = True
 
     try:
         libro_dao = LibroDAO()
         id = libro_dao.obtener_ultimo_id() + 1
-        libro = Libro(id, titulo, autor, libro_isbn, libro_disponible)
+        libro = Libro(id, titulo, autor, isbn, disponible)
         libro_dao.insertar(libro)
         print("Insercion realizada con éxito")
     except Exception as e:
         print("Error al insertar un libro nuevo")
+        print(e)
+
+def actualizar_libro():
+    print("Seleciona el libro a actualizar")
+    try:
+        libro_dao = LibroDAO()
+        ver_libros()
+        id = int(input("Escribe el id de libro a actualizar: "))
+        titulo = input("Escribe el nuevo titulo: ")
+        autor = input("Escribe el nuevo autor: ")
+        isbn = input("Escribe el nuevo ISBN: ")
+        disponible = bool(input("Escribe el nuevo valor de disponible: "))
+        libro = Libro(id, titulo, autor, isbn, disponible)
+        libro_dao.actualizar(libro)
+        print(f"El libro {id} se ha actualizado existosament")
+        
+    except Exception as e:
+        print("Error al actualizar un libro")
         print(e)
 
 def main():
