@@ -125,7 +125,7 @@ def actualizar_usuario():
 
         id = int(input("Seleccione el id de el usuario a actualizar: "))   
         nombre = input("Escribe el nombre: ")
-        matricula = input("Escribe la matricula: ")
+        matricula = input("Escribe el id de la matricula: ")
         carrera = input("Escribe la carrera: ")
         correo = input("Escribe el correo: ")
 
