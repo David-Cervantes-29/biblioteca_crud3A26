@@ -1,6 +1,6 @@
 import flet as ft
 
-def main_window(page: ft.page):
+def main_window(page: ft.Page):
     page.title = "Sistema de Biblioteca Universitaria"
     page.window_width = 1100
     page.window_height = 700
@@ -10,8 +10,9 @@ def main_window(page: ft.page):
 
     titulo = ft.Text(
         "Sistema de Biblioteca Universitaria",
-            size = 24,
-            weight=ft.FontWeight.BOLD
+        size = 24,
+        weight=ft.FontWeight.BOLD,
+        color = ft.Colors.BLUE_800
     )
 
     subtitulo = ft.Text(
@@ -51,22 +52,22 @@ def main_window(page: ft.page):
                 ),
                 ft.Divider(color = ft.Colors.BLUE_GREY_700,),
                 ft.ElevatedButton(
-                    text = "Libros",
+                    "Libros",
                     icon = ft.Icons.BOOK,
                     width = 180,
                 ),
                 ft.ElevatedButton(
-                    text = "Usuarios",
+                    "Usuarios",
                     icon = ft.Icons.PERSON,
                     width = 180,
                 ),
                 ft.ElevatedButton(
-                    text = "Prestamos",
+                    "Prestamos",
                     icon = ft.Icons.SWAP_HORIZ,
                     width = 180,
                 ),
                 ft.ElevatedButton(
-                    text = "Devoluciones",
+                    "Devoluciones",
                     icon = ft.Icons.KEYBOARD_RETURN,
                     width = 180,
                 ),
@@ -75,4 +76,12 @@ def main_window(page: ft.page):
         )
     )
 
-    layout = ft.Row()
+    layout = ft.Row(
+        controls = [
+            menu_lateral,
+            contenido
+        ],
+        expand = True
+    )
+    
+    page.add(layout)
