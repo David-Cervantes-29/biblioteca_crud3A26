@@ -1,5 +1,7 @@
 import flet as ft
 
+from ui.libro_form import libro_form
+
 def main_window(page: ft.Page):
     page.title = "Sistema de Biblioteca Universitaria"
     page.window_width = 1100
@@ -33,6 +35,11 @@ def main_window(page: ft.Page):
         expand = True
     )
 
+    #Reacciona al click de boton de libros en el menú lateral
+    def insertar_libro(e):
+        contenido.content = libro_form()
+        page.update()
+
     menu_lateral = ft.Container(
         width = 220,
         bgcolor = ft.Colors.BLUE_GREY_900,
@@ -55,6 +62,7 @@ def main_window(page: ft.Page):
                     "Libros",
                     icon = ft.Icons.BOOK,
                     width = 180,
+                    on_click = insertar_libro
                 ),
                 ft.ElevatedButton(
                     "Usuarios",
