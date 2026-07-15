@@ -1,6 +1,6 @@
 import flet as ft 
 
-def libro_form():
+def libro_form(regresar):
     titulo_input = ft.TextField(
         label ="Titulo del libro: ",
         width = 400
@@ -27,7 +27,7 @@ def libro_form():
         autor = autor_input.value
         isbn = isbn_input.value
 
-        if titulo == "or autor == "" or isbn ==":
+        if titulo == "" or autor == "" or isbn =="":
             mensaje.value = "Todos los campos son obligatorios"
             mensaje.color = ft.Colors.RED
         else:
@@ -61,11 +61,21 @@ def libro_form():
                 autor_input,
                 isbn_input,
 
-                ft.ElevatedButton(
-                    "Registrar Libro",
-                    icon = ft.Icons.SAVE,
-                    on_click = guardar_libro
+                ft.Row(
+                    controls = [
+                        ft.ElevatedButton(
+                            "Registrar Libro",
+                            icon = ft.Icons.SAVE,
+                            on_click = guardar_libro
+                        ),
+                        ft.OutlinedButton(
+                            "Regresar",
+                            icon = ft.Icons.ARROW_BACK,
+                            on_click = lambda e: regresar()
+                        )
+                    ],
                 ),
+
                 mensaje
 
             ],
